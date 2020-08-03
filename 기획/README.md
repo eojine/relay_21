@@ -70,7 +70,7 @@
   - 딥러닝을 이용한 자연어 처리 입문 : [https://wikidocs.net/22530](https://wikidocs.net/22530)
   - 한글 토큰화 라이브러리 : [https://konlpy.org/en/latest/#standing-on-the-shoulders-of-giants](https://konlpy.org/en/latest/#standing-on-the-shoulders-of-giants)
   - 구글 유해성 검사(이미지) : [https://cloud.google.com/vision/docs/detecting-safe-search?hl=ko](https://cloud.google.com/vision/docs/detecting-safe-search?hl=ko)
-    - 이건 B팀에서 해야하지 않나요
+
 
 - 해야할일
 
