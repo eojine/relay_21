@@ -52,7 +52,7 @@ class ChatViewController: MessagesViewController, MessagesDataSource {
         configureMessageCollectionView()
         configureMessageInputBar()
         loadFirstMessages()
-        title = "MessageKit"
+        title = "버디버디"
         self.initialize()
     }
     
@@ -336,7 +336,7 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
         for component in data {
             let user = SampleData.shared.currentSender
             if let str = component as? String {
-                NetworkHelper.shared.getData(message: "?userId=\(user.senderId)&sentence=\(str)", completion: { obj in
+                NetworkHelper.shared.getData(userId: user.senderId, sentence: str, completion: { obj in
                     guard let sentence = obj.sentence else {
                         return
                     }
@@ -363,7 +363,20 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
         reportBtn.addTarget(self, action: #selector(ChatViewController.reportAction(_:)), for: UIControl.Event.touchUpInside)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: reportBtn)
     }
+    
     @objc func reportAction(_ sender: UIBarButtonItem) {
-        print("보고됨")
+      let alert = UIAlertController(title: "신고", message: "단어를 입력해주세요", preferredStyle: UIAlertController.Style.alert)
+      let sendAction = UIAlertAction(title: "전송", style: .default) { (action) in
+        // 신고할 메시지
+        let reportMsg = alert.textFields![0].text!
+        print(reportMsg)
+        // 여기에 서버로 reportMsg 전송
+      }
+        
+      let cancelAction = UIAlertAction(title: "취소", style: .destructive) { (action) in }
+      alert.addAction(sendAction)
+      alert.addAction(cancelAction)
+      alert.addTextField()
+      self.present(alert, animated: false, completion: nil)
     }
 }

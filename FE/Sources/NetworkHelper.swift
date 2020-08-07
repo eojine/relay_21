@@ -6,23 +6,34 @@
 // Copyright © 2020 김근수. All rights reserved.
 //
 import Foundation
+struct TestObject: Codable {
+    var userId: String?
+    var sentence: String?
+}
+
 /// Singleton Instance for network
 class NetworkHelper {
     public static let shared: NetworkHelper = NetworkHelper()
-    private let baseUrl = "https://m3z89i7n7f.execute-api.us-east-1.amazonaws.com/default/relay"
+    private let baseUrl = "http://49.50.166.93/hello"
     private init() { }
-    func getData(message: String, completion: @escaping (TestObject) -> Void) {
+    func getData(userId: String, sentence: String, completion: @escaping (TestObject) -> Void) {
         // Create Session
         let defaultSession = URLSession(configuration: .default)
-        let requestString = baseUrl + message
-
-        let encodedString = requestString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
-        guard let url = URL(string: "\(encodedString)") else {
+        //    let requestString = baseUrl + message
+        guard let url = URL(string: "\(baseUrl)") else {
             print("URL is nil")
             return
         }
         // Request
-        let request = URLRequest(url: url)
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        let dict = ["userId": userId, "sentence":sentence] as [String: Any]
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: dict, options: []) else {
+            return
+        }
+        //        let body = "userId=\(userId)&sentence=\(sentence)".data(using: .utf8, allowLossyConversion: false)
+        request.httpBody = jsonData
         // dataTask
         let dataTask = defaultSession.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
             // getting Data Error
@@ -40,11 +51,7 @@ class NetworkHelper {
             }
             completion(testObject)
         }
+        
         dataTask.resume()
     }
-}
-
-struct TestObject: Codable {
-    var userId: String?
-    var sentence: String?
 }
