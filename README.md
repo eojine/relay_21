@@ -1,4 +1,6 @@
 ## Relay 21
+![_2020-07-31__2 53 51](https://user-images.githubusercontent.com/21030956/89019291-0b656a80-d358-11ea-82f2-f60358dc763c.png)
+
 [서비스조사](Documents/ProjectResearch.md)  
 [기능 설계](Documents/ProjectDesign.md)
 
