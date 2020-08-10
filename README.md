@@ -31,6 +31,11 @@
 3. 메세지를 받을 때 NLP라이브러리로 욕설부분만 " * "로 변환한다.
 4. 변환한 메세지를 Front로 json형식으로 보낸다.
 
+```sudo
+pip3 install -r requirements.txt
+flask run -h 0.0.0.0 -p 80
+```
+
 ### 실행결과
 
 <img src="./1.png" width = "40%">
