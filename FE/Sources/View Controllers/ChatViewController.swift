@@ -32,22 +32,6 @@ import Vision
 /// A base class for the example controllers
 class ChatViewController: MessagesViewController, MessagesDataSource, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     
-    
-    // 추가
-//    private var isSendingPhoto = false {
-//      didSet {
-//        DispatchQueue.main.async {
-//          self.messageInputBar.leftStackViewItems.forEach { item in
-//            item.isEnabled = !self.isSendingPhoto
-//          }
-//        }
-//      }
-//    }
-
-//    private let storage = Storage.storage().reference()
-
-    
-    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
@@ -411,7 +395,18 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
         }
     }
     
-    func checkImage(image : UIImage) {
+//    func makeBlur(image : UIImage, blurAmout : CGFloat) -> UIImage? {
+//        guard let ciImage = CIImage(image : image) else {
+//            return nil
+//        }
+//
+//        let blurFilter = CIFilter(name : "CIGaussianBlur")
+//        blurFilter?.setValue(ciImage, forKey: kCIInputImageKey)
+//        blurFilter?.setValue(blurAmount, forKey: kCIInputImageKey)
+//    }
+    
+    func checkImage(image : UIImage, callback : @escaping (_ finalImage : UIImage) -> Void) {
+//        var isCat : Bool = false
         if let ciImage : CIImage = CIImage(image : image) {
             if #available(iOS 11.0, *) {
                 // Load the ML model through its generated class
@@ -427,14 +422,23 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
                   }
 
                   // Update UI on main queue
-                  let article = (self?.vowels.contains(topResult.identifier.first!))! ? "an" : "a"
-                  DispatchQueue.main.async { [weak self] in
-                    self?.answerLabel.text = "\(Int(topResult.confidence * 100))% it's \(article) \(topResult.identifier)"
+//                  let article = (self?.vowels.contains(topResult.identifier.first!))! ? "an" : "a"
+                  DispatchQueue.main.async { [weak self] in print("\(Int(topResult.confidence * 100))% it's \(topResult.identifier)")
+//                    self?.answerLabel.text = "\(Int(topResult.confidence * 100))% it's \(article) \(topResult.identifier)"
+                    print("\(Int(topResult.confidence * 100))% it's \(topResult.identifier)")
+                    let sliced = topResult.identifier.components(separatedBy: " ")
+//                    print(sliced)
+                    var finalImage : UIImage = image
+                    if sliced.contains("cat") {
+                        finalImage = image.blurred()
+                    }
+                    callback(finalImage)
                   }
                 }
 
+
                 // Run the Core ML GoogLeNetPlaces classifier on global dispatch queue
-                let handler = VNImageRequestHandler(ciImage: image)
+                let handler = VNImageRequestHandler(ciImage: ciImage)
                 DispatchQueue.global(qos: .userInteractive).async {
                   do {
                     try handler.perform([request])
@@ -444,42 +448,8 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
                 }
             }
         }
+//        return isCat
     }
-    
-    /*
-     func detectScene(image: CIImage) {
-       answerLabel.text = "detecting scene..."
-     
-       // Load the ML model through its generated class
-       guard let model = try? VNCoreMLModel(for: SqueezeNet().model) else {
-         fatalError("can't load Places ML model")
-       }
-       
-       // Create a Vision request with completion handler
-       let request = VNCoreMLRequest(model: model) { [weak self] request, error in
-         guard let results = request.results as? [VNClassificationObservation],
-           let topResult = results.first else {
-             fatalError("unexpected result type from VNCoreMLRequest")
-         }
-
-         // Update UI on main queue
-         let article = (self?.vowels.contains(topResult.identifier.first!))! ? "an" : "a"
-         DispatchQueue.main.async { [weak self] in
-           self?.answerLabel.text = "\(Int(topResult.confidence * 100))% it's \(article) \(topResult.identifier)"
-         }
-       }
-       
-       // Run the Core ML GoogLeNetPlaces classifier on global dispatch queue
-       let handler = VNImageRequestHandler(ciImage: image)
-       DispatchQueue.global(qos: .userInteractive).async {
-         do {
-           try handler.perform([request])
-         } catch {
-           print(error)
-         }
-       }
-     }
-     */
     
     func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -499,16 +469,20 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
                             return
                         }
                         // 여기서 image 유해성 검사
-                        self.checkImage(image: image)
-                        let message = MockMessage(image: image, user: SampleData.shared.currentSender, messageId: UUID().uuidString, date: Date())
-                        self.insertMessage(message)
+                        self.checkImage(image: image) { (finalImage : UIImage) in
+                            let message = MockMessage(image: finalImage, user: SampleData.shared.currentSender, messageId: UUID().uuidString, date: Date())
+                            self.insertMessage(message)
+                        }
                         
                 }
                 
                 // 2
             } else if let image = info[.originalImage] as? UIImage {
-                let message = MockMessage(image: image, user: SampleData.shared.currentSender, messageId: UUID().uuidString, date: Date())
-                self.insertMessage(message)
+                // 여기서 image 유해성 검사
+                self.checkImage(image: image) { (finalImage : UIImage) in
+                    let message = MockMessage(image: finalImage, user: SampleData.shared.currentSender, messageId: UUID().uuidString, date: Date())
+                    self.insertMessage(message)
+                }
             }
         } else {
             // Fallback on earlier versions
@@ -546,5 +520,20 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
       alert.addAction(cancelAction)
       alert.addTextField()
       self.present(alert, animated: false, completion: nil)
+    }
+}
+
+extension UIImage {
+    func blurred(radius: CGFloat = 20.0) -> UIImage {
+        print("making blur")
+        let ciContext = CIContext(options: nil)
+        guard let cgImage = cgImage else { return self }
+        let inputImage = CIImage(cgImage: cgImage)
+        guard let ciFilter = CIFilter(name: "CIGaussianBlur") else { return self }
+        ciFilter.setValue(inputImage, forKey: kCIInputImageKey)
+        ciFilter.setValue(radius, forKey: "inputRadius")
+        guard let resultImage = ciFilter.value(forKey: kCIOutputImageKey) as? CIImage else { return self }
+        guard let cgImage2 = ciContext.createCGImage(resultImage, from: inputImage.extent) else { return self }
+        return UIImage(cgImage: cgImage2)
     }
 }
