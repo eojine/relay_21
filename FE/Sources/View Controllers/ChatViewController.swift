@@ -26,9 +26,27 @@ import UIKit
 import MessageKit
 import InputBarAccessoryView
 import Photos
+import CoreML
+import Vision
 
 /// A base class for the example controllers
 class ChatViewController: MessagesViewController, MessagesDataSource, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+    
+    
+    // 추가
+//    private var isSendingPhoto = false {
+//      didSet {
+//        DispatchQueue.main.async {
+//          self.messageInputBar.leftStackViewItems.forEach { item in
+//            item.isEnabled = !self.isSendingPhoto
+//          }
+//        }
+//      }
+//    }
+
+//    private let storage = Storage.storage().reference()
+
+    
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -55,7 +73,29 @@ class ChatViewController: MessagesViewController, MessagesDataSource, UIImagePic
         loadFirstMessages()
         title = "버디버디"
         self.initialize()
+        
+        // 추가
+        // 1
+        let cameraItem = InputBarButtonItem(type: .system)
+        cameraItem.tintColor = .black
+        cameraItem.image = UIImage(named: "ic_camera")
+
+        // 2
+        cameraItem.addTarget(
+          self,
+          action: #selector(cameraButtonPressed),
+          for: .primaryActionTriggered
+        )
+        cameraItem.setSize(CGSize(width: 60, height: 30), animated: false)
+
+        messageInputBar.leftStackView.alignment = .center
+        messageInputBar.setLeftStackViewWidthConstant(to: 50, animated: false)
+
+        // 3
+        messageInputBar.setStackViewItems([cameraItem], forStack: .left, animated: false)
+
     }
+
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -160,6 +200,7 @@ class ChatViewController: MessagesViewController, MessagesDataSource, UIImagePic
         
         return messagesCollectionView.indexPathsForVisibleItems.contains(lastIndexPath)
     }
+
     
     // MARK: - MessagesDataSource
     
@@ -213,6 +254,7 @@ extension ChatViewController: MessageCellDelegate {
     }
     
     func didTapImage(in cell: MessageCollectionViewCell) {
+        dump(cell)
         print("Image tapped")
     }
     
@@ -363,10 +405,120 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
                 })
             } else if let img = component as? UIImage {
                 let message = MockMessage(image: img, user: user, messageId: UUID().uuidString, date: Date())
+                dump(message)
                 insertMessage(message)
             }
         }
     }
+    
+    func checkImage(image : UIImage) {
+        if let ciImage : CIImage = CIImage(image : image) {
+            if #available(iOS 11.0, *) {
+                // Load the ML model through its generated class
+                guard let model = try? VNCoreMLModel(for: SqueezeNet().model) else {
+                  fatalError("can't load Places ML model")
+                }
+
+                // Create a Vision request with completion handler
+                let request = VNCoreMLRequest(model: model) { [weak self] request, error in
+                  guard let results = request.results as? [VNClassificationObservation],
+                    let topResult = results.first else {
+                      fatalError("unexpected result type from VNCoreMLRequest")
+                  }
+
+                  // Update UI on main queue
+                  let article = (self?.vowels.contains(topResult.identifier.first!))! ? "an" : "a"
+                  DispatchQueue.main.async { [weak self] in
+                    self?.answerLabel.text = "\(Int(topResult.confidence * 100))% it's \(article) \(topResult.identifier)"
+                  }
+                }
+
+                // Run the Core ML GoogLeNetPlaces classifier on global dispatch queue
+                let handler = VNImageRequestHandler(ciImage: image)
+                DispatchQueue.global(qos: .userInteractive).async {
+                  do {
+                    try handler.perform([request])
+                  } catch {
+                    print(error)
+                  }
+                }
+            }
+        }
+    }
+    
+    /*
+     func detectScene(image: CIImage) {
+       answerLabel.text = "detecting scene..."
+     
+       // Load the ML model through its generated class
+       guard let model = try? VNCoreMLModel(for: SqueezeNet().model) else {
+         fatalError("can't load Places ML model")
+       }
+       
+       // Create a Vision request with completion handler
+       let request = VNCoreMLRequest(model: model) { [weak self] request, error in
+         guard let results = request.results as? [VNClassificationObservation],
+           let topResult = results.first else {
+             fatalError("unexpected result type from VNCoreMLRequest")
+         }
+
+         // Update UI on main queue
+         let article = (self?.vowels.contains(topResult.identifier.first!))! ? "an" : "a"
+         DispatchQueue.main.async { [weak self] in
+           self?.answerLabel.text = "\(Int(topResult.confidence * 100))% it's \(article) \(topResult.identifier)"
+         }
+       }
+       
+       // Run the Core ML GoogLeNetPlaces classifier on global dispatch queue
+       let handler = VNImageRequestHandler(ciImage: image)
+       DispatchQueue.global(qos: .userInteractive).async {
+         do {
+           try handler.perform([request])
+         } catch {
+           print(error)
+         }
+       }
+     }
+     */
+    
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+      picker.dismiss(animated: true, completion: nil)
+      
+      // 1
+        if #available(iOS 11.0, *) {
+            if let asset = info[.phAsset] as? PHAsset {
+                let size = CGSize(width: 500, height: 500)
+                PHImageManager.default().requestImage(
+                    for: asset,
+                    targetSize: size,
+                    contentMode: .aspectFit,
+                    options: nil) { result, info in
+                        
+                        guard let image = result else {
+                            return
+                        }
+                        // 여기서 image 유해성 검사
+                        self.checkImage(image: image)
+                        let message = MockMessage(image: image, user: SampleData.shared.currentSender, messageId: UUID().uuidString, date: Date())
+                        self.insertMessage(message)
+                        
+                }
+                
+                // 2
+            } else if let image = info[.originalImage] as? UIImage {
+                let message = MockMessage(image: image, user: SampleData.shared.currentSender, messageId: UUID().uuidString, date: Date())
+                self.insertMessage(message)
+            }
+        } else {
+            // Fallback on earlier versions
+        }
+    }
+
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+      picker.dismiss(animated: true, completion: nil)
+    }
+
     
     func initialize() {
         let reportBtn = UIButton(frame: CGRect(x: 0.0, y: 0.0, width: 30, height: 30))

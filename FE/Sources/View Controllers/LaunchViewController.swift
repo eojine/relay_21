@@ -33,7 +33,7 @@ final internal class LaunchViewController: UITableViewController {
         return .lightContent
     }
 
-    let cells = ["Basic Example", "B"]
+    let cells = ["Basic Example"]
     
     // MARK: - View Life Cycle
     
@@ -79,8 +79,6 @@ final internal class LaunchViewController: UITableViewController {
         switch cell {
         case "Basic Example":
             navigationController?.pushViewController(BasicExampleViewController(), animated: true)
-        case "B":
-            navigationController?.pushViewController(B_ViewController(), animated: true)
         case "Advanced Example":
             navigationController?.pushViewController(AdvancedExampleViewController(), animated: true)
         case "Autocomplete Example":
