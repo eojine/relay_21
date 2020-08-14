@@ -14,7 +14,8 @@ struct TestObject: Codable {
 /// Singleton Instance for network
 class NetworkHelper {
     public static let shared: NetworkHelper = NetworkHelper()
-    private let baseUrl = "http://49.50.166.93/hello"
+//    private let baseUrl = "http://49.50.166.93/hello"
+    private let baseUrl = "http://0.0.0.0/hello"
     private init() { }
     func getData(userId: String, sentence: String, completion: @escaping (TestObject) -> Void) {
         // Create Session

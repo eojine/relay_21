@@ -25,9 +25,10 @@
 import UIKit
 import MessageKit
 import InputBarAccessoryView
+import Photos
 
 /// A base class for the example controllers
-class ChatViewController: MessagesViewController, MessagesDataSource {
+class ChatViewController: MessagesViewController, MessagesDataSource, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -119,6 +120,21 @@ class ChatViewController: MessagesViewController, MessagesDataSource {
         )
     }
     
+    // MARK: - Actions
+    // 추가
+    @objc private func cameraButtonPressed() {
+      let picker = UIImagePickerController()
+      picker.delegate = self
+
+      if UIImagePickerController.isSourceTypeAvailable(.camera) {
+        picker.sourceType = .camera
+      } else {
+        picker.sourceType = .photoLibrary
+      }
+
+      present(picker, animated: true, completion: nil)
+    }
+
     // MARK: - Helpers
     
     func insertMessage(_ message: MockMessage) {
