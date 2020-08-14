@@ -38,9 +38,9 @@ flask run -h 0.0.0.0 -p 80
 
 ### 실행결과
 
-<img src="./1.png" width = "40%">
-<img src="./2.png" width = "40%">
-<img src="./3.gif" width = "40%">
+![1](https://user-images.githubusercontent.com/35067611/90239190-1cd36a00-de62-11ea-865e-eee0983784a4.png)
+![2](https://user-images.githubusercontent.com/35067611/90239191-1e049700-de62-11ea-9fb0-89a4f4383d1a.png)
+![3](https://user-images.githubusercontent.com/35067611/90239193-1e9d2d80-de62-11ea-8f02-e8f2f0425c1e.gif)
 
 
 
