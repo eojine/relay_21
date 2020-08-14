@@ -395,18 +395,7 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
         }
     }
     
-//    func makeBlur(image : UIImage, blurAmout : CGFloat) -> UIImage? {
-//        guard let ciImage = CIImage(image : image) else {
-//            return nil
-//        }
-//
-//        let blurFilter = CIFilter(name : "CIGaussianBlur")
-//        blurFilter?.setValue(ciImage, forKey: kCIInputImageKey)
-//        blurFilter?.setValue(blurAmount, forKey: kCIInputImageKey)
-//    }
-    
     func checkImage(image : UIImage, callback : @escaping (_ finalImage : UIImage) -> Void) {
-//        var isCat : Bool = false
         if let ciImage : CIImage = CIImage(image : image) {
             if #available(iOS 11.0, *) {
                 // Load the ML model through its generated class
@@ -422,9 +411,7 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
                   }
 
                   // Update UI on main queue
-//                  let article = (self?.vowels.contains(topResult.identifier.first!))! ? "an" : "a"
                   DispatchQueue.main.async { [weak self] in print("\(Int(topResult.confidence * 100))% it's \(topResult.identifier)")
-//                    self?.answerLabel.text = "\(Int(topResult.confidence * 100))% it's \(article) \(topResult.identifier)"
                     print("\(Int(topResult.confidence * 100))% it's \(topResult.identifier)")
                     let sliced = topResult.identifier.components(separatedBy: " ")
 //                    print(sliced)

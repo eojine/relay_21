@@ -33,7 +33,7 @@ final internal class LaunchViewController: UITableViewController {
         return .lightContent
     }
 
-    let cells = ["Basic Example"]
+    let cells = ["부캠부캠"]
     
     // MARK: - View Life Cycle
     
@@ -77,7 +77,7 @@ final internal class LaunchViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = cells[indexPath.row]
         switch cell {
-        case "Basic Example":
+        case "부캠부캠":
             navigationController?.pushViewController(BasicExampleViewController(), animated: true)
         case "Advanced Example":
             navigationController?.pushViewController(AdvancedExampleViewController(), animated: true)

@@ -8,7 +8,7 @@
 ## 참여자
 1주차 : 정재명, 정택현, 조경환, 조기현, 조송주, 조수정, 조인택, 조정래, 김병인, 김석호, 김승언, 김신우  
 2주차 : 이은정, 권지웅, 박재현, 허경영, 현기엽, 김근수, 심영민, 이지원, 조경환, 정택현, 양어진  
-3주차 :   
+3주차 : 신병기, 조인택, 문성조, 서명렬, 유시형, 정재명, 김석호, 김영렬, 백종근, 임수현, 강민석, 이태경
 4주차 :   
 
 
@@ -41,3 +41,78 @@ flask run -h 0.0.0.0 -p 80
 <img src="./1.png" width = "40%">
 <img src="./2.png" width = "40%">
 <img src="./3.gif" width = "40%">
+
+
+
+
+
+## 3주차
+
+### 기능A 실행하기
+
+1. ~~~shell
+   git clone https://github.com/boostcamp-2020/relay_21.git
+   ~~~
+
+2. ~~~shell
+   cd relay_21/BE
+   ~~~
+
+3. ~~~shell
+   pip3 install -r requirements.txt
+   ~~~
+
+   - 이 때, 오류가 나는 line 모두 지우기 (지워도 실행 됩니다!)
+
+4. ~~~shell
+   vim relay_21/FE/Sources/Extensions/Networkhelper.swift
+   ~~~
+
+   - private let baseUrl = "http://49.50.166.93/hello"를  private let baseUrl = "http://0.0.0.0/hello"로 바꿔주기
+
+5. Xcode Run
+
+6. ~~~shell
+   cd relay_21/BE
+   ~~~
+
+7. ~~~shell
+   flask run -h 0.0.0.0 -p 80
+   ~~~
+
+
+
+### API
+
+✅ UIBlurEffect (iOS에서 블러처리하는 API) : https://developer.apple.com/documentation/uikit/uiblureffect
+
+✅ Core ML & Vision on iOS (iOS 머신러닝) ```SqueezeNet```
+
+- 설명 블로그 : http://throughkim.kr/2017/09/06/ios-coreml/
+
+- Core ML Models Download : https://developer.apple.com/machine-learning/models/
+
+
+
+### FrontEnd
+
+1. 사용자가 업로드할 사진을 선택
+
+2. 선택한 사진에 대한 유해성 판단 (고양이인지 판단)
+   - 고양이라고 판단되면 블러처리 (A기능의 경우 욕설 판단을 서버에서 했으나 B기능은 iOS 머신러닝 모델을 통해 프론트에서 함)
+3. 서버와 통신 후, 사진을 채팅창에 보여줌
+
+
+
+### Backend
+
+2주차와 동일
+
+
+
+### 실행결과
+
+![notcatpart](https://user-images.githubusercontent.com/35067611/90238891-a171b880-de61-11ea-837d-7051c3821127.gif)
+
+![catpart](https://user-images.githubusercontent.com/35067611/90238744-6079a400-de61-11ea-85a0-68f36cfcac8f.gif)
+
