@@ -7,8 +7,8 @@
 ---
 ## 참여자
 1주차 : 정재명, 정택현, 조경환, 조기현, 조송주, 조수정, 조인택, 조정래, 김병인, 김석호, 김승언, 김신우  
-2주차 : 이은정, 권지웅, 박재현, 허경영, 현기엽, 김근수, 심영민, 이지원, 조경환, 정택현, 양어진  
-3주차 : 신병기, 조인택, 문성조, 서명렬, 유시형, 정재명, 김석호, 김영렬, 백종근, 임수현, 강민석, 이태경
+[2주차]([https://github.com/boostcamp-2020/relay_21#2%EC%A3%BC%EC%B0%A8](https://github.com/boostcamp-2020/relay_21#2주차)) : 이은정, 권지웅, 박재현, 허경영, 현기엽, 김근수, 심영민, 이지원, 조경환, 정택현, 양어진  
+[3주차]([https://github.com/boostcamp-2020/relay_21#3%EC%A3%BC%EC%B0%A8](https://github.com/boostcamp-2020/relay_21#3주차)) : 신병기, 조인택, 문성조, 서명렬, 유시형, 정재명, 김석호, 김영렬, 백종근, 임수현, 강민석, 이태경
 4주차 :   
 
 
@@ -68,7 +68,7 @@ flask run -h 0.0.0.0 -p 80
    vim relay_21/FE/Sources/Extensions/Networkhelper.swift
    ~~~
 
-   - private let baseUrl = "http://49.50.166.93/hello"를  private let baseUrl = "http://0.0.0.0/hello"로 바꿔주기
+   - private let baseUrl = ```http://49.50.166.93/hello``` -> private let baseUrl = ```http://0.0.0.0/hello```로 바꿔주기
 
 5. Xcode Run
 
