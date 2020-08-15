@@ -123,5 +123,4 @@ flask run -h 0.0.0.0 -p 80
 
 
 
-
-### [데모영상 (쿠키있음)](https://www.youtube.com/watch?v=enjWt_0wSdc)  
+### [데모영상 (쿠키있음)](https://youtu.be/ub9kPr_HmlQ)  
