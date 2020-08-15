@@ -122,5 +122,6 @@ flask run -h 0.0.0.0 -p 80
 ![catpart](https://user-images.githubusercontent.com/35067611/90238744-6079a400-de61-11ea-85a0-68f36cfcac8f.gif)
 
 
-### 데모영상 (쿠키있음)
-{% include featureB.html id="enjWt_0wSdc" %}  
+
+
+### [데모영상 (쿠키있음)](https://www.youtube.com/watch?v=enjWt_0wSdc)  
