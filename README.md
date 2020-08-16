@@ -48,6 +48,26 @@ flask run -h 0.0.0.0 -p 80
 
 ## 3주차
 
+### [📎데모영상링크](https://youtu.be/ub9kPr_HmlQ)
+
+
+
+### 기능B 소개 및 요구사항
+
+목적 : 음란성 이미지를 검열하여 건전한 채팅문화 조성
+
+기능: 사용자가 채팅창에 사진을 보냈을 때 유해성 검사 후 유해할 시 blur 처리하여 업로드, 유해하지 않다면 바로 업로드
+
+
+
+### 체크포인트
+
+✅ 고양이 사진(음란성 사진 대신 고양이사진)을 채팅창에 보냈을 때 blur 처리
+
+✅ 고양이 사진이 아닌 채팅창에 보냈을 때는 원본사진 보여주기
+
+
+
 ### 실행하기
 
 1. ~~~shell
@@ -68,7 +88,7 @@ flask run -h 0.0.0.0 -p 80
    vim relay_21/FE/Sources/Extensions/Networkhelper.swift
    ~~~
 
-   - private let baseUrl = ```http://49.50.166.93/hello``` -> private let baseUrl = ```http://0.0.0.0/hello```로 바꿔주기
+   - private let baseUrl = ```http://49.50.166.93/hello``` ➡  ```http://0.0.0.0/hello```로 바꿔주기
 
 5. ~~~shell
    cd relay_21/BE
@@ -84,7 +104,7 @@ flask run -h 0.0.0.0 -p 80
 
 ### API
 
-1. UIBlurEffect (iOS에서 블러처리하는 API) : https://developer.apple.com/documentation/uikit/uiblureffect
+1. ```UIBlurEffect``` (iOS에서 블러처리하는 API) : https://developer.apple.com/documentation/uikit/uiblureffect
 2. Core ML & Vision on iOS (iOS 머신러닝) ```SqueezeNet```
    - 설명 블로그 : http://throughkim.kr/2017/09/06/ios-coreml/
    - Core ML Models Download : https://developer.apple.com/machine-learning/models/
@@ -107,14 +127,6 @@ flask run -h 0.0.0.0 -p 80
 
 
 
-### Checkpoint
-
-✅ 고양이 사진을 채팅창에 보냈을 때 blur 처리
-
-✅ 고양이 사진이 아닌 채팅창에 보냈을 때 원본사진 보여주기
-
-
-
 ### 실행결과
 
 ![notcatpart](https://user-images.githubusercontent.com/35067611/90238891-a171b880-de61-11ea-837d-7051c3821127.gif)
@@ -123,4 +135,6 @@ flask run -h 0.0.0.0 -p 80
 
 
 
-### [데모영상 (쿠키있음)](https://youtu.be/ub9kPr_HmlQ)  
+### 참여자
+
+신병기 조인택 문성주 서명렬 유시형 정재명 김석호 김영렬 백종근 임수현 강민석 이태경
