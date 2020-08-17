@@ -1,5 +1,5 @@
-i## Relay 21
-![_2020-07-31__2 53 51](https://user-images.githubusercontent.com/21030956/89019291-0b656a80-d358-11ea-82f2-f60358dc763c.png)
+# Relay 21  
+![_2020-07-31__2 53 51](https://user-images.githubusercontent.com/21030956/89019291-0b656a80-d358-11ea-82f2-f60358dc763c.png)  
 
 [서비스조사](Documents/ProjectResearch.md)  
 [기능 설계](Documents/ProjectDesign.md)
@@ -8,7 +8,7 @@ i## Relay 21
 ## 참여자
 1주차 : 정재명, 정택현, 조경환, 조기현, 조송주, 조수정, 조인택, 조정래, 김병인, 김석호, 김승언, 김신우  
 2주차 : 이은정, 권지웅, 박재현, 허경영, 현기엽, 김근수, 심영민, 이지원, 조경환, 정택현, 양어진  
-3주차 : 신병기, 조인택, 문성주, 서명렬, 유시형, 정재명, 김석호, 김영렬, 백종근, 임수현, 강민석, 이태경
+3주차 : 신병기, 조인택, 문성주, 서명렬, 유시형, 정재명, 김석호, 김영렬, 백종근, 임수현, 강민석, 이태경  
 4주차 :   
 
 
@@ -40,8 +40,7 @@ flask run -h 0.0.0.0 -p 80
 
 ![1](https://user-images.githubusercontent.com/35067611/90239190-1cd36a00-de62-11ea-865e-eee0983784a4.png)
 ![2](https://user-images.githubusercontent.com/35067611/90239191-1e049700-de62-11ea-9fb0-89a4f4383d1a.png)
-![3](https://user-images.githubusercontent.com/35067611/90239193-1e9d2d80-de62-11ea-8f02-e8f2f0425c1e.gif)
-
+![3](https://user-images.githubusercontent.com/35067611/90239193-1e9d2d80-de62-11ea-8f02-e8f2f0425c1e.gif)  
 
 
 
