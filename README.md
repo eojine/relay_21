@@ -45,7 +45,7 @@ flask run -h 0.0.0.0 -p 80
 
 ## 3주차
 
-### [📎데모영상링크](https://youtu.be/ub9kPr_HmlQ)
+### [데모영상링크👀](https://youtu.be/ub9kPr_HmlQ)
 
 
 
