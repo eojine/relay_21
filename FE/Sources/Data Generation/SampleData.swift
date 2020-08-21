@@ -46,10 +46,10 @@ final internal class SampleData {
         case ShareContact
     }
 
-    let system = MockUser(senderId: "000000", displayName: "System")
-    let nathan = MockUser(senderId: "000001", displayName: "Nathan Tannar")
-    let steven = MockUser(senderId: "000002", displayName: "Steven Deutsch")
-    let wu = MockUser(senderId: "000003", displayName: "Wu Zhong")
+    let system = MockUser(senderId: "000000", displayName: "System", interests: ["등산", "여행/캠핑"])
+    let nathan = MockUser(senderId: "000001", displayName: "Nathan Tannar", interests: ["음악/악기", "사교/인맥"])
+    let steven = MockUser(senderId: "000002", displayName: "Steven Deutsch", interests: ["봉사활동", "사교/인맥"])
+    let wu = MockUser(senderId: "000003", displayName: "Wu Zhong", interests: ["여행/캠핑", "봉사활동"])
 
     lazy var senders = [nathan, steven, wu]
     
